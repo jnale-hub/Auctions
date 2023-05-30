@@ -1,0 +1,158 @@
+{% extends "auctions/layout.html" %}
+{% load humanize %}
+{% load static %}
+
+{% block body %}
+
+{% if message %}
+{% if update %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% else %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ message }}
+    <a type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </a>
+</div>
+{% endif %}
+{% endif %}
+
+{% if not listing.isActive and user == listing.price.user %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    Congrats! You got the listing!
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+<div class="product-box m-3">
+    <!--
+          - PRODUCT FEATURED
+        -->
+    <div class="product-featured">
+        <div class="showcase-wrapper">
+            <div class="showcase-container">
+
+                <div class="showcase">
+
+                    <div class="showcase-banner">
+                        <img src="{{ listing.imageUrl }}" alt="{{ listing.title }}"
+                            class="showcase-img showcase-main-img">
+                    </div>
+
+                    <div class="showcase-content">
+
+                        <h2 class="showcase-title-main">{{ listing.title }}
+                            <!-- {% if not listing.isActive %}
+                            <span class="badge badge-danger">Listing closed</span>
+                            {% elif isListingInWatchlist %}
+                            <a href="{% url 'watchlist' %}">
+                                <span class="badge badge-primary">Watchlist</span>
+                            </a>
+                            {% endif %} -->
+                        </h2>
+
+                        <div class="showcase-desc-main close" id="desc">
+                            <div class="description-container">
+                                <p class="description">{{ listing.description | safe }}</p>
+                            </div>
+                        </div>
+                        <a class="toggle-btn" onclick="toggleDescription()">Show more</a>
+
+                        <div class="price-box">
+                            <p class="price">PHP {{ listing.price.bid|floatformat:2|intcomma }}</p>
+                        </div>
+                        {% if user.is_authenticated and listing.isActive %}
+                        {% if isListingInWatchlist %}
+                        <form action="{% url 'remove_watchlist' id=listing.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="add-cart-btn">Remove from Watchlist</button>
+                        </form>
+                        {% else %}
+                        <form action="{% url 'add_watchlist' id=listing.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="add-cart-btn">Add to Watchlist</button>
+                        </form>
+                        {% endif %}
+                        {% if isOwner %}
+                        <form action="{% url 'close_auction' id=listing.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="add-cart-btn">Close this Auction</button>
+                        </form>
+                        {% endif%}
+                        {% if user.is_authenticated %}
+                        <form action="{% url 'add_bid' id=listing.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="header-search-container">
+                                <input type="number" min="0" name="newBid" class="search-field bid"
+                                    placeholder="Must higher than current bid." required>
+                                <button type="submit" class="add-cart-btn bid-button">Place your bid</button>
+                            </div>
+                        </form>
+                        {% endif %}
+                        {% endif %}
+
+                        <div class="showcase-status">
+                            <div class="wrapper">
+                                <p>
+                                    Initial Price: <b>PHP {{ listing.initialPrice|floatformat:2|intcomma }}</b><br>
+                                    Current Bid: <b>PHP {{ listing.price.bid|floatformat:2|intcomma }}</b><br>
+                                    Number of Bids: <strong>{{ listing.bidCount }}</strong>
+                                </p>
+                                <p>
+                                    Listed by: {{ listing.owner}}<br>
+                                    <i>Created on {{ listing.date }}</i><br>
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="container">
+        <h3><b>Comments</b></h3>
+        {% for comment in allComments %}
+        <div class="showcase-status">
+            <div class="wrapper">
+                <p>
+                    By: {{ comment.author }} | {{ comment.date }}</i>
+                </p>
+            </div>
+            <div class="sidebar-category">
+                    {{ comment.message }}
+            </div>
+        </div>
+        {% endfor %}
+    {% if user.is_authenticated %}
+    <form action="{% url 'add_comment' id=listing.id %}" method="post" class="add-comment">
+        {% csrf_token %}
+            <textarea name="comment" placeholder="Add Comment" required class="search-field bid"></textarea>
+            <button type="submit" class="add-cart-btn">Add</button>
+    </form>
+    {% endif %}
+</div>
+
+
+
+{% if not listing.isActive %}
+<span class="badge badge-danger">Listing closed</span>
+{% elif isListingInWatchlist %}
+<a href="{% url 'watchlist' %}">
+    <span class="badge badge-primary">Watchlist</span>
+</a>
+{% endif %}
+
+{% endblock %}

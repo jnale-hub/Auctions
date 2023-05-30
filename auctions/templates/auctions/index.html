@@ -1,0 +1,406 @@
+{% extends "auctions/layout.html" %}
+{% load humanize %}
+{% load static %}
+
+{% block body %}
+
+<!--
+      - BANNER
+    -->
+<!-- 
+    <div class="banner">
+
+        <div class="container">
+  
+          <div class="slider-container has-scrollbar">
+  
+            <div class="slider-item">
+  
+              <img src="{% static 'auctions/images/banner-1.jpg' %}" alt="women's latest fashion sale" class="banner-img">
+  
+              <div class="banner-content">
+  
+                <p class="banner-subtitle">Trending item</p>
+  
+                <h2 class="banner-title">Women's latest fashion sale</h2>
+  
+                <p class="banner-text">
+                  starting at &dollar; <b>20</b>.00
+                </p>
+  
+                <a href="#" class="banner-btn">Shop now</a>
+  
+              </div>
+  
+            </div>
+  
+            <div class="slider-item">
+  
+              <img src="{% static 'auctions/images/banner-2.jpg' %}" alt="modern sunglasses" class="banner-img">
+  
+              <div class="banner-content">
+  
+                <p class="banner-subtitle">Trending accessories</p>
+  
+                <h2 class="banner-title">Modern sunglasses</h2>
+  
+                <p class="banner-text">
+                  starting at &dollar; <b>15</b>.00
+                </p>
+  
+                <a href="#" class="banner-btn">Shop now</a>
+  
+              </div>
+  
+            </div>
+  
+            <div class="slider-item">
+  
+              <img src="{% static 'auctions/images/banner-3.jpg' %}" alt="new fashion summer sale" class="banner-img">
+  
+              <div class="banner-content">
+  
+                <p class="banner-subtitle">Sale Offer</p>
+  
+                <h2 class="banner-title">New fashion summer sale</h2>
+  
+                <p class="banner-text">
+                  starting at &dollar; <b>29</b>.99
+                </p>
+  
+                <a href="#" class="banner-btn">Shop now</a>
+  
+              </div>
+  
+            </div>
+  
+          </div>
+  
+        </div>
+  
+      </div> -->
+
+
+<!--
+      - PRODUCT
+    -->
+
+<div class="product-container">
+
+  <div class="container">
+
+    <!--
+            - SIDEBAR
+          -->
+    <!--   
+          <div class="sidebar  has-scrollbar" data-mobile-menu>
+  
+            <div class="sidebar-category">
+  
+              <div class="sidebar-top">
+                <h2 class="sidebar-title">Category</h2>
+  
+                <button class="sidebar-close-btn" data-mobile-menu-close-btn>
+                  <ion-icon name="close-outline"></ion-icon>
+                </button>
+              </div>
+  
+              <ul class="sidebar-menu-category-list">
+  
+                <li class="sidebar-menu-category">
+                  <button class="sidebar-accordion-menu" data-accordion-btn>
+                    <div class="menu-title-flex">
+                      <img src="{% static 'auctions/images/icons/dress.svg' %}" alt="clothes" width="20" height="20"
+                        class="menu-title-img">
+                      <p class="menu-title">Clothes</p>
+                    </div>
+  
+                    <div>
+                      <ion-icon name="add-outline" class="add-icon"></ion-icon>
+                      <ion-icon name="remove-outline" class="remove-icon"></ion-icon>
+                    </div>
+                </li>
+  
+  
+              </ul>
+  
+            </div>
+  
+            <div class="product-showcase">
+  
+              <h3 class="showcase-heading">picks for you</h3>
+  
+              <div class="showcase-wrapper">
+  
+                <div class="showcase-container">
+  
+                  <div class="showcase">
+  
+                    <a href="#" class="showcase-img-box">
+                      <img src="{% static 'auctions/images/products/1.jpg' %}" alt="baby fabric shoes" width="75" height="75"
+                        class="showcase-img">
+                    </a>
+  
+                    <div class="showcase-content">
+  
+                      <a href="#">
+                        <h4 class="showcase-title">baby fabric shoes</h4>
+                      </a>
+  
+                      <div class="showcase-rating">
+                        <ion-icon name="star"></ion-icon>
+                        <ion-icon name="star"></ion-icon>
+                        <ion-icon name="star"></ion-icon>
+                        <ion-icon name="star"></ion-icon>
+                        <ion-icon name="star"></ion-icon>
+                      </div>
+  
+                      <div class="price-box">
+                        <del>$5.00</del>
+                        <p class="price">$4.00</p>
+                      </div>
+  
+                    </div>
+  
+                  </div>
+  
+  
+                </div>
+  
+              </div>
+  
+            </div>
+  
+          </div> -->
+
+
+
+    <div class="product-box">
+
+      <!--
+              - PRODUCT GRID
+            -->
+
+      <div class="product-main">
+
+        <h2 class="">
+          {% if category %}
+          {{ category }}
+          {% else %}
+          All Products
+          {% endif %}
+        </h2>
+
+        <div class="product-grid">
+          {% for listing in listings %}
+          <div class="showcase">
+
+            <div class="showcase-banner">
+
+              <div class="img-box">
+                <a href="{% url 'listing' id=listing.id %}">
+                  <img src="{{ listing.imageUrl }}" alt="{{ listing.title }}" width="300" class="product-img">
+                </a>
+              </div>
+
+
+              <div class="showcase-actions">
+
+                <button class="btn-action">
+                  <ion-icon name="heart-outline"></ion-icon>
+                </button>
+
+                <button class="btn-action">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </button>
+
+                <button class="btn-action">
+                  <ion-icon name="repeat-outline"></ion-icon>
+                </button>
+
+                <button class="btn-action">
+                  <ion-icon name="bag-add-outline"></ion-icon>
+                </button>
+
+              </div>
+
+            </div>
+
+            <div class="showcase-content">
+
+              <a href="{% url 'display_category' category=listing.category %}" class="showcase-category">{{ listing.category }}</a>
+
+              <a href="{% url 'listing' id=listing.id %}">
+                <h3 class="showcase-title">{{ listing.title }}</h3>
+              </a>
+
+              <div class="price-box">
+                <p class="price">PHP {{ listing.price.bid|floatformat:2|intcomma }}</p>
+              </div>
+
+            </div>
+
+          </div>
+
+          {% empty %}
+          <p class="text-center">No available listing.</p>
+
+          {% endfor %}
+
+
+        </div>
+
+      </div>
+
+      <!--
+              - PRODUCT FEATURED
+            -->
+<!-- 
+      <div class="product-featured">
+
+        <h2 class="title">Deal of the day</h2>
+
+        <div class="showcase-wrapper has-scrollbar">
+
+          <div class="showcase-container">
+
+            <div class="showcase">
+
+              <div class="showcase-banner">
+                <img src="{% static 'auctions/images/products/shampoo.jpg' %}"
+                  alt="shampoo, conditioner & facewash packs" class="showcase-img">
+              </div>
+
+              <div class="showcase-content">
+
+                <a href="#">
+                  <h3 class="showcase-title">shampoo, conditioner & facewash packs</h3>
+                </a>
+
+                <p class="showcase-desc">
+                  Lorem ipsum dolor sit amet consectetur Lorem ipsum
+                  dolor dolor sit amet consectetur Lorem ipsum dolor
+                </p>
+
+                <div class="price-box">
+                  <p class="price">$150.00</p>
+                </div>
+
+                <button class="add-cart-btn">add to cart</button>
+
+                <div class="showcase-status">
+                  <div class="wrapper">
+                    <p>
+                      already sold: <b>20</b>
+                    </p>
+
+                    <p>
+                      available: <b>40</b>
+                    </p>
+                  </div>
+
+                  <div class="showcase-status-bar"></div>
+                </div>
+
+                <div class="countdown-box">
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="showcase-container">
+
+            <div class="showcase">
+
+              <div class="showcase-banner">
+                <img src="{% static 'auctions/images/products/jewellery-1.jpg' %}" alt="Rose Gold diamonds Earring"
+                  class="showcase-img">
+              </div>
+
+              <div class="showcase-content">
+
+                <div class="showcase-rating">
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star-outline"></ion-icon>
+                  <ion-icon name="star-outline"></ion-icon>
+                </div>
+
+                <h3 class="showcase-title">
+                  <a href="#" class="showcase-title">Rose Gold diamonds Earring</a>
+                </h3>
+
+                <p class="showcase-desc">
+                  Lorem ipsum dolor sit amet consectetur Lorem ipsum
+                  dolor dolor sit amet consectetur Lorem ipsum dolor
+                </p>
+
+                <div class="price-box">
+                  <p class="price">$1990.00</p>
+                  <del>$2000.00</del>
+                </div>
+
+                <button class="add-cart-btn">add to cart</button>
+
+                <div class="showcase-status">
+                  <div class="wrapper">
+                    <p> already sold: <b>15</b> </p>
+
+                    <p> available: <b>40</b> </p>
+                  </div>
+
+                  <div class="showcase-status-bar"></div>
+                </div>
+
+                <div class="countdown-box">
+
+                  <p class="countdown-desc">Hurry Up! Offer ends in:</p>
+
+                  <div class="countdown">
+                    <div class="countdown-content">
+                      <p class="display-number">360</p>
+                      <p class="display-text">Days</p>
+                    </div>
+
+                    <div class="countdown-content">
+                      <p class="display-number">24</p>
+                      <p class="display-text">Hours</p>
+                    </div>
+
+                    <div class="countdown-content">
+                      <p class="display-number">59</p>
+                      <p class="display-text">Min</p>
+                    </div>
+
+                    <div class="countdown-content">
+                      <p class="display-number">00</p>
+                      <p class="display-text">Sec</p>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+ -->
+
+    </div>
+
+  </div>
+
+</div>
+
+
+{% endblock %}
