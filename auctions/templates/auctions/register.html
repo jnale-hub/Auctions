@@ -2,7 +2,8 @@
 
 {% block body %}
 
-    <h2>Register</h2>
+<div class="container-form"><br>
+    <h2 class="create-title">Log In</h2><br>
 
     {% if message %}
         <div>{{ message }}</div>
@@ -25,6 +26,9 @@
         <input class="btn btn-primary" type="submit" value="Register">
     </form>
 
-    Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+    <div>
+        Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+    </div>
+</div>
 
 {% endblock %}

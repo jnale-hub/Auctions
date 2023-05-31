@@ -99,9 +99,10 @@ def add_watchlist(request, id):
 
 
 def display_watchlist(request):
-    return render(request, "auctions/watchlist.html", {
+    return render(request, "auctions/index.html", {
         "listings": request.user.listingWatchlist.all(),
-        "watchlistCount": len(request.user.listingWatchlist.all())
+        "watchlistCount": len(request.user.listingWatchlist.all()),
+        "watchlist": True
     })
 
 
