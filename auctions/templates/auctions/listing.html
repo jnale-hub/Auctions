@@ -6,29 +6,36 @@
 
 {% if message %}
 {% if update %}
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    {{ message }}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+<label>
+    <input type="checkbox" class="alertCheckbox" autocomplete="off" />
+    <div class="alert notice">
+        <span class="alertClose">X</span>
+        <span class="alertText">{{ message }}
+            <br class="clear" /></span>
+    </div>
+</label>
+
 {% else %}
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    {{ message }}
-    <a type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </a>
-</div>
+<label>
+    <input type="checkbox" class="alertCheckbox" autocomplete="off" />
+    <div class="alert error">
+        <span class="alertClose">X</span>
+        <span class="alertText">{{ message }}
+            <br class="clear" /></span>
+    </div>
+</label>
 {% endif %}
 {% endif %}
 
 {% if not listing.isActive and user == listing.price.user %}
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    Congrats! You got the listing!
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+<label>
+    <input type="checkbox" class="alertCheckbox" autocomplete="off" />
+    <div class="alert success">
+        <span class="alertClose">X</span>
+        <span class="alertText">Congrats! You got the listing!
+            <br class="clear" /></span>
+    </div>
+</label>
 {% endif %}
 <div class="product-box m-3">
     <!--
@@ -47,14 +54,14 @@
 
                     <div class="showcase-content">
 
-                        <h2 class="showcase-title-main">{{ listing.title }}
-                            <!-- {% if not listing.isActive %}
+                        <h2 class="showcase-title-main mb-3">{{ listing.title }}
+                            {% if not listing.isActive %}
                             <span class="badge badge-danger">Listing closed</span>
                             {% elif isListingInWatchlist %}
                             <a href="{% url 'watchlist' %}">
                                 <span class="badge badge-primary">Watchlist</span>
                             </a>
-                            {% endif %} -->
+                            {% endif %}
                         </h2>
 
                         <div class="showcase-desc-main close" id="desc">
@@ -132,20 +139,20 @@
                 </p>
             </div>
             <div class="sidebar-category">
-                    {{ comment.message }}
+                {{ comment.message }}
             </div>
         </div>
         {% endfor %}
-    {% if user.is_authenticated %}
-    <form action="{% url 'add_comment' id=listing.id %}" method="post" class="add-comment">
-        {% csrf_token %}
+        {% if user.is_authenticated %}
+        <form action="{% url 'add_comment' id=listing.id %}" method="post" class="add-comment">
+            {% csrf_token %}
             <textarea name="comment" placeholder="Add Comment" required class="search-field bid"></textarea>
             <button type="submit" class="add-cart-btn">Add</button>
-    </form>
-    {% endif %}
-</div>
+        </form>
+        {% endif %}
+    </div>
 
-<!-- 
+    <!-- 
 
 {% if not listing.isActive %}
 <span class="badge badge-danger">Listing closed</span>
@@ -155,4 +162,4 @@
 </a>
 {% endif %} -->
 
-{% endblock %}
+    {% endblock %}

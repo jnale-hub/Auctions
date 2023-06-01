@@ -45,14 +45,17 @@
 
               <div class="showcase-actions">
 
-                <button class="btn-action">
-                  <ion-icon name="heart-outline"></ion-icon>
-                </button>
-
-                <button class="btn-action">
-                  <ion-icon name="eye-outline"></ion-icon>
-                </button>
-
+                <a href="{% url 'listing' id=listing.id %}">
+                  <button class="btn-action">
+                    <ion-icon name="heart-outline"></ion-icon>
+                  </button>
+                </a>
+                <a href="{% url 'listing' id=listing.id %}">
+                  <button class="btn-action">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </button>
+                </a>
+                
               </div>
 
             </div>
